@@ -26,7 +26,7 @@ const updateStore = (state: StoreStateModel, updatedStore: StoreInfo) => ({
   ),
 });
 
-export const useStore = create<StoreStateModel>()(
+export const useStoreState = create<StoreStateModel>()(
   devtools(
     persist(
       (set) => ({

@@ -7,14 +7,14 @@ import {
   ColDef,
   RowDragEndEvent,
 } from "ag-grid-community";
-import { useStore } from "@/store/store.state";
+import { useStoreState } from "@/store/store.state";
 import ActionCellRenderer from "./components/ActionCellRendere";
 
 const Store: React.FC = () => {
-  const stores = useStore((state) => state.stores);
-  const addStore = useStore((state) => state.addStore);
-  const updateStore = useStore((state) => state.updateStore);
-  const reorderStores = useStore((state) => state.reorderStores);
+  const stores = useStoreState((state) => state.stores);
+  const addStore = useStoreState((state) => state.addStore);
+  const updateStore = useStoreState((state) => state.updateStore);
+  const reorderStores = useStoreState((state) => state.reorderStores);
   const [showModal, setShowModal] = useState(false);
   const columnDef = useMemo<ColDef[]>(
     () => [

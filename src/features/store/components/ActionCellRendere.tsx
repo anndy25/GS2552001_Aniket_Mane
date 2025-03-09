@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useStore } from "@/store/store.state";
+import { useStoreState } from "@/store/store.state";
 import { StoreInfo } from "../interface/store.interface";
 
 const ActionCellRenderer = ({ data }: { data: StoreInfo }) => {
-  const removeStore = useStore((state) => state.removeStore);
+  const removeStore = useStoreState((state) => state.removeStore);
 
   const handleDelete = () => {
     removeStore(data.storeId);

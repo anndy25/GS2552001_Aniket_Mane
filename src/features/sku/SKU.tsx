@@ -9,13 +9,13 @@ import {
 import ActionCellRenderer from "./components/ActionCellRendere";
 import SKUModal from "./components/SkuModal";
 import { ISKUInfo } from "./interface/sku.interface";
-import { useSKU } from "@/store/sku.state";
+import { useSKUStore } from "@/store/sku.state";
 
 const SKU: React.FC = () => {
-  const skus = useSKU((state) => state.skus);
-  const addSKU = useSKU((state) => state.addSKU);
-  const updateSKU = useSKU((state) => state.updateSKU);
-  const reorderSKUs = useSKU((state) => state.reorderSKUs);
+  const skus = useSKUStore((state) => state.skus);
+  const addSKU = useSKUStore((state) => state.addSKU);
+  const updateSKU = useSKUStore((state) => state.updateSKU);
+  const reorderSKUs = useSKUStore((state) => state.reorderSKUs);
   const [showModal, setShowModal] = useState(false);
   const columnDef = useMemo<ColDef[]>(
     () => [

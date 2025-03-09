@@ -24,7 +24,7 @@ const updateSKU = (state: SKUStateModel, updatedSKU: ISKUInfo) => ({
   ),
 });
 
-export const useSKU = create<SKUStateModel>()(
+export const useSKUStore = create<SKUStateModel>()(
   devtools(
     persist(
       (set) => ({

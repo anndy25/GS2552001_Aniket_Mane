@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ISKUInfo } from "../interface/sku.interface";
-import { useSKU } from "@/store/sku.state";
+import { useSKUStore } from "@/store/sku.state";
 
 const ActionCellRenderer = ({ data }: { data: ISKUInfo }) => {
-  const removeSKU = useSKU((state) => state.removeSKU);
+  const removeSKU = useSKUStore((state) => state.removeSKU);
 
   const handleDelete = () => {
     removeSKU(data.skuId);
