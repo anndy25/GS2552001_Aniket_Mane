@@ -90,6 +90,7 @@ const Store: React.FC = () => {
             suppressMovableColumns={false}
             onRowDragEnd={onRowDragEnd}
             onCellValueChanged={handleCellValueChanged}
+            domLayout={stores.length > 15 ? "normal" : "autoHeight"}
             defaultColDef={{
               flex: 1,
               resizable: true,
@@ -102,8 +103,6 @@ const Store: React.FC = () => {
         isOpen={showModal}
         onRequestClose={() => setShowModal(false)}
         onSave={addNewStore}
-        storeData={false}
-        editMode={false}
       />
     </>
   );

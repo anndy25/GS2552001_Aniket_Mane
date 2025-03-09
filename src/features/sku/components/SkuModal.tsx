@@ -1,29 +1,34 @@
 import React from "react";
-import { StoreModalProps } from "../interface/store.interface";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useFormik } from "formik";
 import uniqid from "uniqid";
 import * as Yup from "yup";
+import { SKUModalProps } from "../interface/sku.interface";
 
-const StoreModal: React.FC<StoreModalProps> = ({
+const SKUModal: React.FC<SKUModalProps> = ({
   isOpen,
   onRequestClose,
   onSave,
 }) => {
   const formik = useFormik({
     initialValues: {
-      store: "",
-      city: "",
-      state: "",
+      sku: "",
+      cost: 1,
+      price: 1,
     },
     validationSchema: Yup.object({
-      store: Yup.string().required("Store name is required"),
-      city: Yup.string().required("City is required"),
-      state: Yup.string().required("State is required"),
+      sku: Yup.string().required("SKU is required"),
+      cost: Yup.number()
+        .typeError("Cost must be a number")
+        .min(1, "Cost must be at least 1 dollar")
+        .required("Cost is required"),
+      price: Yup.number()
+        .typeError("Price must be a number")
+        .min(1, "Price must be at least 1 dollar")
+        .required("Price is required"),
     }),
-
     onSubmit: (values) => {
-      onSave({ ...values, storeId: uniqid().toUpperCase() });
+      onSave({ ...values, skuId: uniqid().toUpperCase() });
       formik.resetForm();
       onRequestClose();
     },
@@ -39,52 +44,54 @@ const StoreModal: React.FC<StoreModalProps> = ({
       <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/30">
         <DialogPanel className="w-full p-6 text-gray-900 bg-white rounded-lg shadow-lg sm:max-w-lg">
           <DialogTitle className="text-xl font-semibold text-gray-800">
-            Add Store
+            Add SKU
           </DialogTitle>
 
           <form onSubmit={formik.handleSubmit} className="mt-4 space-y-5">
             <div>
-              <label className="text-gray-600">Store</label>
+              <label className="text-gray-600">SKU</label>
               <input
-                name="store"
-                value={formik.values.store}
+                name="sku"
+                value={formik.values.sku}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeholder="Enter store name"
+                placeholder="Enter SKU"
                 className="w-full bg-gray-100 text-gray-900 rounded-md p-2.5 mt-1 border border-gray-300 focus:ring-teal-500"
               />
-              {formik.touched.store && formik.errors.store && (
-                <p className="text-sm text-red-500">{formik.errors.store}</p>
+              {formik.touched.sku && formik.errors.sku && (
+                <p className="text-sm text-red-500">{formik.errors.sku}</p>
               )}
             </div>
 
             <div>
-              <label className="text-gray-600">City</label>
+              <label className="text-gray-600">Cost</label>
               <input
-                name="city"
-                value={formik.values.city}
+                name="cost"
+                type="number"
+                value={formik.values.cost}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeholder="Enter city"
+                placeholder="Enter cost"
                 className="w-full bg-gray-100 text-gray-900 rounded-md p-2.5 mt-1 border border-gray-300 focus:ring-teal-500"
               />
-              {formik.touched.city && formik.errors.city && (
-                <p className="text-sm text-red-500">{formik.errors.city}</p>
+              {formik.touched.cost && formik.errors.cost && (
+                <p className="text-sm text-red-500">{formik.errors.cost}</p>
               )}
             </div>
 
             <div>
-              <label className="text-gray-600">State</label>
+              <label className="text-gray-600">Price</label>
               <input
-                name="state"
-                value={formik.values.state}
+                name="price"
+                type="number"
+                value={formik.values.price}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeholder="Enter state"
+                placeholder="Enter price"
                 className="w-full bg-gray-100 text-gray-900 rounded-md p-2.5 mt-1 border border-gray-300 focus:ring-teal-500"
               />
-              {formik.touched.state && formik.errors.state && (
-                <p className="text-sm text-red-500">{formik.errors.state}</p>
+              {formik.touched.price && formik.errors.price && (
+                <p className="text-sm text-red-500">{formik.errors.price}</p>
               )}
             </div>
 
@@ -110,4 +117,4 @@ const StoreModal: React.FC<StoreModalProps> = ({
   );
 };
 
-export default StoreModal;
+export default SKUModal;

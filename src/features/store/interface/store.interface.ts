@@ -1,9 +1,7 @@
 export interface StoreModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  onSave: (store: any) => void;
-  storeData?: any;
-  editMode?: boolean;
+  onSave: (store: StoreInfo) => void;
 }
 
 export interface ModalProps {

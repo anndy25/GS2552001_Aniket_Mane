@@ -1,9 +1,8 @@
 import { create } from "zustand";
-import uniqid from "uniqid";
 import { devtools, persist } from "zustand/middleware";
 import { StoreInfo } from "@/features/store/interface/store.interface";
 
-interface Store {
+interface StoreStateModel {
   stores: StoreInfo[];
   addStore: (store: StoreInfo) => void;
   removeStore: (storeId: string) => void;
@@ -11,26 +10,23 @@ interface Store {
   reorderStores: (storeInfo: StoreInfo[]) => void;
 }
 
-const initialStores: StoreInfo[] = [
-  { storeId: uniqid(), store: "D-Mart", city: "Delhi", state: "Delhi" },
-  { storeId: uniqid(), store: "V-Mart", city: "Ahmedabad", state: "Gujarat" },
-];
+const initialStores: StoreInfo[] = [];
 
-const addStore = (state: Store, store: StoreInfo) => ({
+const addStore = (state: StoreStateModel, store: StoreInfo) => ({
   stores: [...state.stores, store],
 });
 
-const removeStore = (state: Store, storeId: string) => ({
+const removeStore = (state: StoreStateModel, storeId: string) => ({
   stores: state.stores.filter((s) => s.storeId !== storeId),
 });
 
-const updateStore = (state: Store, updatedStore: StoreInfo) => ({
+const updateStore = (state: StoreStateModel, updatedStore: StoreInfo) => ({
   stores: state.stores.map((store) =>
     store.storeId === updatedStore.storeId ? updatedStore : store
   ),
 });
 
-export const useStore = create<Store>()(
+export const useStore = create<StoreStateModel>()(
   devtools(
     persist(
       (set) => ({
