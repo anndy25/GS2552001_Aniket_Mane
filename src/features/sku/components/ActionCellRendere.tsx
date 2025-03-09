@@ -19,7 +19,7 @@ const ActionCellRenderer = ({ data }: { data: ISKUInfo }) => {
       <div
         className="transition duration-300 cursor-pointer text-slate-700 hover:text-red-700"
         onClick={handleDelete}
-        title="Delete Store"
+        title="Delete SKU"
       >
         <FontAwesomeIcon icon={faTrash} className="w-5 h-5" />
       </div>

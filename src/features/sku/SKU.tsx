@@ -14,7 +14,7 @@ import { usePlanningStore } from "@/store/planning.state";
 import { IDType } from "../planning/interfaces/planning.interface";
 
 const SKU: React.FC = () => {
-  const skus = useSKUStore((state) => state.skus);
+  const skus = structuredClone(useSKUStore((state) => state.skus));
   const addSKU = useSKUStore((state) => state.addSKU);
   const updateSKU = useSKUStore((state) => state.updateSKU);
   const reorderSKUs = useSKUStore((state) => state.reorderSKUs);

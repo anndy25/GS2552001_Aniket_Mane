@@ -23,5 +23,4 @@ export const months = [
   { name: "March", field: "mar" },
   { name: "April", field: "apr" },
   { name: "May", field: "may" },
-  { name: "June", field: "jun" },
 ];

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { StoreInfo } from "./interface/store.interface";
 import StoreModal from "./components/StoreModal";
@@ -13,7 +13,7 @@ import { usePlanningStore } from "@/store/planning.state";
 import { IDType } from "../planning/interfaces/planning.interface";
 
 const Store: React.FC = () => {
-  const stores = useStoreState((state) => state.stores);
+  const stores = structuredClone(useStoreState((state) => state.stores));
   const addStore = useStoreState((state) => state.addStore);
   const updateStore = useStoreState((state) => state.updateStore);
   const reorderStores = useStoreState((state) => state.reorderStores);
@@ -25,25 +25,30 @@ const Store: React.FC = () => {
         headerName: "Store ID",
         field: "storeId",
         rowDrag: true,
+        editable: false,
       },
       {
         headerName: "Store",
         field: "store",
         editable: true,
+        cellEditor: "agTextCellEditor",
       },
       {
         headerName: "State",
         field: "state",
         editable: true,
+        cellEditor: "agTextCellEditor",
       },
       {
         headerName: "City",
         field: "city",
         editable: true,
+        cellEditor: "agTextCellEditor",
       },
       {
         headerName: "",
         cellRenderer: ActionCellRenderer,
+        editable: false,
       },
     ],
     []
@@ -58,9 +63,12 @@ const Store: React.FC = () => {
     addPlan({ id: store.storeId, type: IDType.StoreID });
   };
 
-  const handleCellValueChanged = (params: CellValueChangedEvent<StoreInfo>) => {
-    updateStore(params.data);
-  };
+  const handleCellValueChanged = useCallback(
+    (params: CellValueChangedEvent<StoreInfo>) => {
+      updateStore(params.data);
+    },
+    []
+  );
 
   const onRowDragEnd = (event: RowDragEndEvent) => {
     const updatedRowList = event.overNode?.parent?.childrenAfterSort?.map(
