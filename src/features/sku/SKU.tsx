@@ -10,12 +10,15 @@ import ActionCellRenderer from "./components/ActionCellRendere";
 import SKUModal from "./components/SkuModal";
 import { ISKUInfo } from "./interface/sku.interface";
 import { useSKUStore } from "@/store/sku.state";
+import { usePlanningStore } from "@/store/planning.state";
+import { IDType } from "../planning/interfaces/planning.interface";
 
 const SKU: React.FC = () => {
   const skus = useSKUStore((state) => state.skus);
   const addSKU = useSKUStore((state) => state.addSKU);
   const updateSKU = useSKUStore((state) => state.updateSKU);
   const reorderSKUs = useSKUStore((state) => state.reorderSKUs);
+  const addPlan = usePlanningStore((state) => state.addPlanning);
   const [showModal, setShowModal] = useState(false);
   const columnDef = useMemo<ColDef[]>(
     () => [
@@ -73,6 +76,7 @@ const SKU: React.FC = () => {
 
   const addNewSKU = (sku: ISKUInfo) => {
     addSKU(sku);
+    addPlan({ id: sku.skuId, type: IDType.SkuID });
   };
 
   const handleCellValueChanged = (params: CellValueChangedEvent<ISKUInfo>) => {

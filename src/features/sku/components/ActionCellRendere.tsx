@@ -2,12 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ISKUInfo } from "../interface/sku.interface";
 import { useSKUStore } from "@/store/sku.state";
+import { IDType } from "@/features/planning/interfaces/planning.interface";
+import { usePlanningStore } from "@/store/planning.state";
 
 const ActionCellRenderer = ({ data }: { data: ISKUInfo }) => {
   const removeSKU = useSKUStore((state) => state.removeSKU);
+  const removePlanning = usePlanningStore((state) => state.removePlanning);
 
   const handleDelete = () => {
     removeSKU(data.skuId);
+    removePlanning({ id: data.skuId, type: IDType.SkuID });
   };
 
   return (

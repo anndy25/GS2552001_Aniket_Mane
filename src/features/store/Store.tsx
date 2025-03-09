@@ -9,12 +9,15 @@ import {
 } from "ag-grid-community";
 import { useStoreState } from "@/store/store.state";
 import ActionCellRenderer from "./components/ActionCellRendere";
+import { usePlanningStore } from "@/store/planning.state";
+import { IDType } from "../planning/interfaces/planning.interface";
 
 const Store: React.FC = () => {
   const stores = useStoreState((state) => state.stores);
   const addStore = useStoreState((state) => state.addStore);
   const updateStore = useStoreState((state) => state.updateStore);
   const reorderStores = useStoreState((state) => state.reorderStores);
+  const addPlan = usePlanningStore((state) => state.addPlanning);
   const [showModal, setShowModal] = useState(false);
   const columnDef = useMemo<ColDef[]>(
     () => [
@@ -52,6 +55,7 @@ const Store: React.FC = () => {
 
   const addNewStore = (store: StoreInfo) => {
     addStore(store);
+    addPlan({ id: store.storeId, type: IDType.StoreID });
   };
 
   const handleCellValueChanged = (params: CellValueChangedEvent<StoreInfo>) => {

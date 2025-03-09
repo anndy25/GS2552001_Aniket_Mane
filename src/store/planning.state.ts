@@ -12,9 +12,9 @@ import { produce } from "immer";
 
 interface PlanningStateModel {
   plans: IPlanningInfo[];
-  addPlans: (plans: PlanInfo) => void;
-  removePlans: (plans: PlanInfo) => void;
-  updatePlans: (siteId: string, skuId: string, plan: IPlanningInfo) => void;
+  addPlanning: (plans: PlanInfo) => void;
+  removePlanning: (plan: PlanInfo) => void;
+  updatePlanning: (siteId: string, skuId: string, plan: IPlanningInfo) => void;
 }
 
 const initialStores: IPlanningInfo[] = [];
@@ -30,7 +30,7 @@ const generateSellingUnits = () => {
   }, {} as Record<string, number>);
 };
 
-const addPlans = (state: PlanningStateModel, plans: PlanInfo) => {
+const addPlanning = (state: PlanningStateModel, plans: PlanInfo) => {
   const skus = useSKUStore.getState().skus;
   const stores = useStoreState.getState().stores;
 
@@ -54,13 +54,13 @@ const addPlans = (state: PlanningStateModel, plans: PlanInfo) => {
   });
 };
 
-const removePlans = (state: PlanningStateModel, plans: PlanInfo) => {
+const removePlan = (state: PlanningStateModel, plans: PlanInfo) => {
   return produce(state, (draft) => {
     draft.plans = draft.plans.filter((p) => p[plans.type] !== plans.id);
   });
 };
 
-const updatePlans = (
+const updatePlanning = (
   state: PlanningStateModel,
   siteId: string,
   skuId: string,
@@ -82,13 +82,14 @@ export const usePlanningStore = create<PlanningStateModel>()(
       (set) => ({
         plans: initialStores,
 
-        addPlans: (plans: PlanInfo) => set((state) => addPlans(state, plans)),
+        addPlanning: (plan: PlanInfo) =>
+          set((state) => addPlanning(state, plan)),
 
-        removePlans: (plans: PlanInfo) =>
-          set((state) => removePlans(state, plans)),
+        removePlanning: (plan: PlanInfo) =>
+          set((state) => removePlan(state, plan)),
 
-        updatePlans: (siteId, skuId, plan) =>
-          set((state) => updatePlans(state, siteId, skuId, plan)),
+        updatePlanning: (siteId, skuId, plan) =>
+          set((state) => updatePlanning(state, siteId, skuId, plan)),
       }),
       { name: "planning-storage" }
     )
