@@ -1,5 +1,6 @@
 import {
   IDType,
+  IJoinedPlanInfo,
   IPlanningInfo,
   PlanInfo,
 } from "@/features/planning/interfaces/planning.interface";
@@ -77,6 +78,60 @@ const updatePlanning = (state: PlanningStateModel, plan: IPlanningInfo) => {
     }
   });
 };
+
+export function getStoreGMSummary(plans: IPlanningInfo[]): IJoinedPlanInfo[] {
+  const { skus, skuIdMapping } = useSKUStore.getState();
+  const { stores, storeIdMapping } = useStoreState.getState();
+
+  const storeMap: Record<
+    string,
+    { weeks: Record<string, { gmDollars: number; salesDollars: number }> }
+  > = {};
+
+  plans.forEach((plan) => {
+    const skuData = skus[skuIdMapping[plan.skuId]];
+    const storeId = plan.storeId;
+
+    if (!storeMap[storeId]) {
+      storeMap[storeId] = { weeks: {} };
+    }
+
+    months.forEach((month) => {
+      weeks.forEach((week) => {
+        const weekKey = `${month.field}_${week.field}`;
+        const salesUnits = (plan[`${weekKey}_sales_units`] || 0) as number;
+        const salesDollars = salesUnits * skuData.price;
+        const gmDollars = salesDollars - salesUnits * skuData.cost;
+
+        if (!storeMap[storeId].weeks[weekKey]) {
+          storeMap[storeId].weeks[weekKey] = { gmDollars: 0, salesDollars: 0 };
+        }
+
+        storeMap[storeId].weeks[weekKey].gmDollars += gmDollars;
+        storeMap[storeId].weeks[weekKey].salesDollars += salesDollars;
+      });
+    });
+  });
+
+  return Object.entries(storeMap).map(([storeId, data]) => {
+    const storeName = stores[storeIdMapping[storeId]].store;
+
+    return {
+      storeId,
+      store: storeName,
+      sales: Object.entries(data.weeks).map(([week, values]) => ({
+        week: week,
+        gmDollars: Number(values.gmDollars.toFixed(2)),
+        gmPercent:
+          values.salesDollars !== 0
+            ? Number(
+                ((values.gmDollars / values.salesDollars) * 100).toFixed(2)
+              )
+            : 0,
+      })),
+    };
+  });
+}
 
 export const usePlanningStore = create<PlanningStateModel>()(
   devtools(
