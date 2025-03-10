@@ -6,7 +6,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { IListBox } from "./interfaces/listbox.interface";
+import { IListBox } from "../interfaces/listbox.interface";
 
 const ListBox: React.FC<IListBox> = ({ list, onChange, selectedItem }) => {
   return (
