@@ -54,8 +54,6 @@ This is a ReactJS application developed for managing stores, SKUs, and planning 
 - **LocalStorage Persistence**: The app uses localStorage to persist data such as stores, SKUs, and plans, even after the browser is closed or refreshed.
 - **Planning Page Data**: You need to add at least one **SKU** and one **Store** to see the data in the **Planning Page**.
 
-This should make it clear to users how the data is persisted and what actions are required to see data on the Planning Page. Let me know if you need further changes!
-
 ## Technologies Used
 
 - **ReactJS**: JavaScript library for building user interfaces.
