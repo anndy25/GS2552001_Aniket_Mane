@@ -8,6 +8,8 @@ import { Suspense, lazy } from "react";
 import MainLayout from "./layouts/MainLayout";
 import PrivateRoute from "./layouts/PrivateRoute";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import ErrorBoundary from "./components/handler/ErrorHander";
+import LoadingFallback from "./components/handler/LoadingFallback";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -40,9 +42,11 @@ const App = () => {
                 key={path}
                 path={path}
                 element={
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <Component />
-                  </Suspense>
+                  <ErrorBoundary>
+                    <Suspense fallback={<LoadingFallback />}>
+                      <Component />
+                    </Suspense>
+                  </ErrorBoundary>
                 }
               />
             ))}

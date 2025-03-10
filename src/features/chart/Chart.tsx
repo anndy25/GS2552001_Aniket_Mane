@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { AgCharts } from "ag-charts-react";
 
-import ListBox from "@/components/ListBox";
+import ListBox from "@/components/listbox/ListBox";
 import { getStoreGMSummary, usePlanningStore } from "@/store/planning.state";
 import { IList } from "@/components/interfaces/listbox.interface";
 import { CHART_GM_AXES, GM_BAR_AND_LINE } from "./constants/chart.constant";
